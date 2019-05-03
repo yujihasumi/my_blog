@@ -5,7 +5,8 @@ class PostsController < ApplicationController
   
   
   def index
-    @posts=Post.order(created_at: :desc)
+    @q=Post.order(created_at: :desc).ransack(params[:q])
+    @posts=@q.result(distinct: true)
     @new_posts=Post.order(created_at: :desc).limit(5)
     @author=Author.first
   end
